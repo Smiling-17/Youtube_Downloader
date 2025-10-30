@@ -1,133 +1,109 @@
-# YouTube Downloader Pro 🎥
-
-Ứng dụng tải video YouTube với giao diện thân thiện và nhiều tính năng hữu ích.
+# YouTube Downloader Pro
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.8%2B-green.svg)
 ![License](https://img.shields.io/badge/license-MIT-yellow.svg)
 
-## 🌟 Tính năng chính
+Ứng dụng tải video/audio từ YouTube với cả giao diện đồ họa hiện đại (Tkinter) và dòng lệnh, xây dựng trên nền tảng `yt-dlp`. Dự án hỗ trợ playlist, tải song song, tiếp tục tải bị gián đoạn, proxy/cookies và tự kiểm tra cập nhật.
 
-- **Tải video đa dạng**:
-  - Tải video đơn lẻ
-  - Tải toàn bộ playlist
-  - Hỗ trợ nhiều định dạng (MP4, MP3, WebM)
-  - Tải thumbnail và phụ đề
+## 📦 Tính năng chính
 
-- **Tùy chọn tải xuống**:
-  - Chỉ tải audio (MP3)
-  - Chỉ tải video (không audio)
-  - Tải video + audio (MP4)
-  - Format tùy chỉnh
+- Tải video đơn lẻ hoặc toàn bộ playlist với nhiều định dạng (MP4, MP3, WebM…).
+- Hỗ trợ kết hợp video + audio, chuyển đổi sang MP3 và tải thumbnail/phụ đề.
+- Tải song song nhiều video với giới hạn tùy chọn, tiếp tục tải khi bị gián đoạn.
+- Cấu hình proxy, cookies, giới hạn tốc độ ngay trong GUI hoặc CLI.
+- Kiểm tra và cập nhật phiên bản `yt-dlp` trực tiếp từ ứng dụng.
+- Ghi log chi tiết vào `youtube_downloader.log`.
 
-- **Tính năng nâng cao**:
-  - Tải song song với số luồng có thể cấu hình
-  - Tiếp tục tải xuống bị gián đoạn
-  - Hỗ trợ proxy và cookies
-  - Cập nhật tự động yt-dlp
+## 🧱 Cấu trúc dự án
+
+```
+.
+├── main.py                     # Điểm vào của ứng dụng (GUI hoặc CLI)
+├── requirements.txt
+├── RUN.bat
+└── youtube_downloader/         # Mã nguồn chính
+    ├── __init__.py             # Khởi tạo logging toàn cục
+    ├── cli.py                  # Giao diện dòng lệnh
+    ├── config.py               # Đọc/ghi cấu hình và trạng thái tải
+    ├── constants.py            # Hằng số chung (đường dẫn, phiên bản…)
+    ├── downloader.py           # Lớp lõi gọi yt-dlp, quản lý task tải
+    ├── gui.py                  # Giao diện Tkinter
+    ├── models.py               # Dataclass mô tả video/playlist/tùy chọn
+    ├── theme.py                # Bảng màu và style của GUI
+    ├── utils.py                # Hàm tiện ích (format thời gian/kích thước…)
+    └── versioning.py           # Kiểm tra và cập nhật yt-dlp
+```
+
+## 🛠️ Yêu cầu hệ thống
+
+- Python 3.8 trở lên
+- Windows/macOS/Linux (GUI yêu cầu `tkinter`)
+- FFmpeg (khuyến nghị để ghép/chuyển đổi định dạng)
 
 ## 🚀 Cài đặt
 
-### Yêu cầu hệ thống
-- Python 3.8 trở lên
-- Windows 10/11
+```bash
+git clone https://github.com/Smiling-17/Youtube_Downloader.git
+cd Youtube_Downloader
+pip install -r requirements.txt
+```
 
-### Cách cài đặt
+> Windows có thể chạy `RUN.bat` để kích hoạt môi trường ảo (nếu có), cài thư viện và khởi động ứng dụng.
 
-1. **Tải xuống dự án**:
-   ```bash
-   git clone https://github.com/Smiling-17/Youtube_Downloader.git
-   cd Youtube_Downloader
-   ```
-
-2. **Cài đặt các thư viện cần thiết**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Chạy chương trình**:
-   - Double-click vào file `RUN.bat`
-   - Hoặc chạy lệnh: `python main.py`
-
-## 💻 Hướng dẫn sử dụng
+## 💡 Sử dụng
 
 ### Giao diện đồ họa (GUI)
 
-1. **Tải video đơn lẻ**:
-   - Dán URL video vào ô nhập liệu
-   - Chọn định dạng mong muốn
-   - Nhấn "Tải xuống"
+```bash
+python main.py --gui          # Hoặc chỉ cần python main.py nếu có tkinter
+```
 
-2. **Tải playlist**:
-   - Dán URL playlist
-   - Chọn thư mục lưu
-   - Nhấn "Tải playlist"
-
-3. **Tùy chỉnh cài đặt**:
-   - Số luồng tải xuống
-   - Thư mục lưu mặc định
-   - Proxy và cookies
-   - Các tùy chọn nâng cao
+1. Dán URL video/playlist và nhấn **Phân tích**.
+2. Chọn chế độ tải (Audio, Video, Video+Audio hoặc format cụ thể).
+3. Tùy chỉnh thư mục lưu, số luồng, thumbnail, subtitle… ngay trên giao diện.
+4. Nhấn **Tải xuống** để bắt đầu; tiến trình hiển thị trong bảng và thanh trạng thái.
 
 ### Giao diện dòng lệnh (CLI)
 
 ```bash
-# Tải video
-python main.py -u "URL_VIDEO" -f mp4
+# Khởi động chế độ CLI tương tác
+python main.py --cli
 
-# Tải playlist
-python main.py -u "URL_PLAYLIST" -p
-
-# Tải chỉ audio
-python main.py -u "URL_VIDEO" -f mp3
-
-# Tải với proxy
-python main.py -u "URL_VIDEO" --proxy "http://proxy:port"
+# Tải trực tiếp từ tham số dòng lệnh
+python main.py --url "https://youtu.be/VIDEO_ID" --output downloads --format best
+python main.py --url "https://youtube.com/playlist?list=..." --max-workers 4
+python main.py --url "https://youtu.be/VIDEO_ID" --audio-only
 ```
 
-## ⚙️ Cấu hình
+- Thêm `--format FORMAT_ID` để chọn format cụ thể (ví dụ `bestvideo[ext=mp4]+bestaudio/best`).
+- Sử dụng `--max-workers` để điều chỉnh số luồng tải song song.
 
-File cấu hình `config.json` cho phép tùy chỉnh:
+## ⚙️ Cấu hình & trạng thái
 
-```json
-{
-    "download_path": "downloads",
-    "max_threads": 4,
-    "proxy": "",
-    "cookies": "",
-    "format": "mp4"
-}
+- Cấu hình người dùng được lưu tại:
+  - Windows: `%USERPROFILE%\.youtube_downloader_config.ini`
+  - macOS/Linux: `~/.youtube_downloader_config.ini`
+- Trạng thái tải đang dang dở nằm trong `~/.youtube_downloader_state.json`; ứng dụng sẽ hỏi tiếp tục khi khởi động.
+- Ghi log chi tiết vào `youtube_downloader.log` (cùng thư mục với `main.py`).
+
+## 🧪 Kiểm thử nhanh
+
+Sau khi cài đặt, có thể chạy:
+
+```bash
+python -m compileall youtube_downloader main.py
 ```
 
-## 🔧 Xử lý sự cố
-
-1. **Lỗi không tải được video**:
-   - Kiểm tra kết nối internet
-   - Cập nhật yt-dlp: `pip install -U yt-dlp`
-   - Kiểm tra URL video
-
-2. **Lỗi proxy**:
-   - Kiểm tra cấu hình proxy
-   - Thử tắt proxy tạm thời
-
-3. **Lỗi cài đặt**:
-   - Đảm bảo Python 3.8+ đã được cài đặt
-   - Chạy lại `pip install -r requirements.txt`
-
-## 📝 Ghi chú
-
-- Chương trình tự động cập nhật yt-dlp khi có phiên bản mới
-- Có thể tải nhiều video cùng lúc
-- Hỗ trợ tiếp tục tải xuống nếu bị gián đoạn
+để đảm bảo mã nguồn hợp lệ trên môi trường hiện tại.
 
 ## 🤝 Đóng góp
 
-Mọi đóng góp đều được hoan nghênh! Vui lòng:
-1. Fork dự án
-2. Tạo nhánh mới
-3. Commit thay đổi
-4. Push lên nhánh
-5. Tạo Pull Request
+1. Fork repository và tạo nhánh mới.
+2. Thực hiện thay đổi có mô tả rõ ràng.
+3. Đảm bảo code pass lint/test (nếu có).
+4. Gửi Pull Request kèm mô tả thay đổi và ảnh chụp (nếu cập nhật UI).
 
+## 📄 Giấy phép
 
-Made with ❤️ by Smiling 😼
+Phát hành dưới giấy phép [MIT](LICENSE). Vui lòng tuân thủ điều khoản bản quyền nội dung khi tải từ YouTube.
